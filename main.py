@@ -55,7 +55,8 @@ def get_file(stage: str, file_path: str):
     blob = bucket.get_blob(file_path)
     return blob
 
-def get_credentials()->service_account.Credentials:
+
+def get_credentials() -> service_account.Credentials:
     '''
     Get credentials from json file
     :return:
@@ -70,7 +71,7 @@ def get_credentials()->service_account.Credentials:
     return credentials
 
 
-def get_result_exam(template:str,exam:str,unit:str)->str:
+def get_result_exam(template: str, exam: str, unit: str) -> str:
     '''
     Get the result of the exam
     :param template:
@@ -79,7 +80,7 @@ def get_result_exam(template:str,exam:str,unit:str)->str:
     :return:
     '''
     try:
-        m = re.search(fr'{exam}(.*?) {unit}',template.replace('\n',' '))
+        m = re.search(fr'{exam}(.*?) {unit}', template.replace('\n', ' '))
         return m.group(0)
     except:
         return None
@@ -94,7 +95,7 @@ if 'main' == __name__:
         credentials = get_credentials()
         arr_result[template] = get_document_orc('<!----SAUDE ID PROJECT---->', 'us', '<!----PROCESSOR ID ------>', file,
                                                 credentials)
-
+    #print results
     for template in templates:
         print(f'Template {template}->ORC: {get_result_exam(arr_result[template], "UREIA", "mg/dL")}')
         print(f'Template {template}->ORC: {get_result_exam(arr_result[template], "CREATININA", "mg/dL")}')
